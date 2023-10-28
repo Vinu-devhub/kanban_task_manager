@@ -21,7 +21,7 @@ const Sidebar = () => {
   const data = boardData.boards;
 
   return (
-    <div className=" w-80 h-full bg-[#222327] text-white p-7">
+    <div className=" w-72 h-full bg-[#222327] text-white p-7">
       <div className=" space-y-20">
         <div className=" text-3xl font-semibold leading-8">Projects</div>
         <div className="">
@@ -54,7 +54,7 @@ const Sidebar = () => {
                       height={20}
                     />
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className=" bg-[#2A2B2F] text-white">
+                  <DropdownMenuContent className=" bg-slate-900 text-white">
                     <DropdownMenuItem className=" space-x-8 cursor-pointer">
                       <span className=" text-base ">Edit</span>
                       <span>
@@ -62,7 +62,7 @@ const Sidebar = () => {
                       </span>
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      className=" space-x-10 cursor-pointer"
+                      className=" space-x-4 cursor-pointer"
                       color="red"
                     >
                       <span className=" text-base">Delete</span>{" "}

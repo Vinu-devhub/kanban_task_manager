@@ -4,7 +4,7 @@ import Sidebar from "./components/views/Sidebar";
 
 function App() {
   return (
-    <main className=" flex w-full h-screen min-h-screen">
+    <main className=" flex w-full h-screen max-h-screen overflow-hidden">
       <MiniSidebar />
       <Sidebar />
       <BoardContainer />

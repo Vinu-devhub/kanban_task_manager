@@ -1,4 +1,9 @@
-import { TextFieldInput, TextFieldRoot, TextFieldSlot } from "@radix-ui/themes";
+import {
+  TextFieldInput,
+  TextFieldRoot,
+  TextFieldSlot,
+  Tooltip,
+} from "@radix-ui/themes";
 import { GalleryHorizontal, PlusCircle, Search } from "lucide-react";
 
 const BoardMenu = () => {
@@ -9,14 +14,16 @@ const BoardMenu = () => {
           <GalleryHorizontal width={16} height={16} />
           <p className=" text-base">Board View</p>
         </div>
-        <div className=" flex items-center gap-2 cursor-pointer">
-          <PlusCircle
-            width={16}
-            height={16}
-            className=" stroke-gray-400 bg-slate-800 rounded-full"
-          />
-          <p className=" text-base text-slate-400">Add View</p>
-        </div>
+        <Tooltip content="Not Implemented" delayDuration={100}>
+          <div className=" flex items-center gap-2 cursor-pointer">
+            <PlusCircle
+              width={16}
+              height={16}
+              className=" stroke-gray-400 bg-slate-800 rounded-full"
+            />
+            <p className=" text-base text-slate-400">Add View</p>
+          </div>
+        </Tooltip>
       </div>
       <div className=" flex items-center gap-4 pr-4 ">
         <p>Filter</p>
