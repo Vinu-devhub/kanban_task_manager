@@ -27,3 +27,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+/* Add this CSS to your stylesheet or component styles */
+.rt-DialogOverlay {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ); /* Adjust the alpha value to control darkness */
+  backdrop-filter: blur(8px); /* Adjust the blur value to control blurriness */
+}

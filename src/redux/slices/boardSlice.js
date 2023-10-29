@@ -41,12 +41,31 @@ const boardSlice = createSlice({
   initialState: initialState,
   reducers: {
     setActiveBoardIndex: (state, action) => {
-      console.log("Action dispatched: ", action);
       state.activeBoardIndex = action.payload;
+    },
+    addBoard: (state, action) => {
+      const newBoard = {
+        id: currentID++,
+        title: action.payload,
+        columns: [],
+      };
+
+      state.boards = [...state.boards, newBoard];
+    },
+    editBoardName: (state, action) => {
+      const editedName = action.payload;
+      state.boards[state.activeBoardIndex].title = editedName;
+    },
+    deleteBoard: (state, action) => {
+      state.activeBoardIndex = 0;
+      state.boards = state.boards.filter(
+        (board) => board.id !== action.payload,
+      );
     },
   },
 });
 
 export default boardSlice.reducer;
 
-export const { setActiveBoardIndex } = boardSlice.actions;
+export const { setActiveBoardIndex, addBoard, editBoardName, deleteBoard } =
+  boardSlice.actions;

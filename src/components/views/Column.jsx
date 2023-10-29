@@ -5,6 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@radix-ui/themes";
 import { MoreHorizontal, PenSquare, PlusCircle, Trash } from "lucide-react";
+import Task from "./Task";
 
 const Column = ({ column }) => {
   return (
@@ -37,18 +38,13 @@ const Column = ({ column }) => {
           </DropdownMenuContent>
         </DropdownMenuRoot>
       </div>
-      <div className=" overflow-y-auto space-y-4 w-full p-3">
+      <div className=" overflow-y-auto space-y-4 w-full h-full p-3">
         <div className=" h-20 w-full border-2 bg-[#292B31] shadow-lg border-dashed border-white/40 rounded-xl p-3 flex items-center justify-center gap-4 cursor-pointer ">
           <PlusCircle />
           <span className=" text-lg">Add Task</span>
         </div>
         {column?.tasks.map((task) => (
-          <div
-            key={task.id}
-            className=" h-40 w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md  rounded-xl p-3 "
-          >
-            {task.title}
-          </div>
+          <Task key={task.id} task={task} />
         ))}
       </div>
     </div>
@@ -56,3 +52,12 @@ const Column = ({ column }) => {
 };
 
 export default Column;
+
+// {column?.tasks.map((task) => (
+//   <div
+//     key={task.id}
+//     className=" h-20 w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md  rounded-xl p-3 "
+//   >
+//     {task.title}
+//   </div>
+// ))}
