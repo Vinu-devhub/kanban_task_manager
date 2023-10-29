@@ -12,13 +12,15 @@ import {
   PlusCircle,
   Trash,
 } from "lucide-react";
-import { useState } from "react";
-import boardData from "../../../public/data.json";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveBoardIndex } from "../../redux/slices/boardSlice";
 
 const Sidebar = () => {
-  const [clicked, setClicked] = useState(0);
+  const dispatch = useDispatch();
 
-  const data = boardData.boards;
+  const { boards, activeBoardIndex } = useSelector(
+    (state) => state.kanban_board,
+  );
 
   return (
     <div className=" w-72 h-full bg-[#222327] text-white p-7">
@@ -26,16 +28,16 @@ const Sidebar = () => {
         <div className=" text-3xl font-semibold leading-8">Projects</div>
         <div className="">
           <p className=" text-xl font-medium pl-1 pt-1">
-            Boards ({data.length})
+            Boards ({boards.length})
           </p>
           <div className=" space-y-4 py-4 ">
-            {data.map((item, index) => (
+            {boards.map((item, index) => (
               <div
                 key={item.id}
                 className={`flex gap-2 items-center justify-between hover:bg-slate-900 outline-none hover:ring-2 hover:ring-blue-700 ${
-                  index === clicked ? "bg-blue-600" : ""
+                  index === activeBoardIndex ? "bg-blue-600" : ""
                 }  cursor-pointer p-2 rounded-md relative`}
-                onClick={() => setClicked(index)}
+                onClick={() => dispatch(setActiveBoardIndex(index))}
               >
                 <div className=" flex items-center gap-2">
                   <GalleryHorizontalEnd width={20} height={20} />
@@ -48,7 +50,7 @@ const Sidebar = () => {
                   <DropdownMenuTrigger asChild>
                     <MoreHorizontal
                       className={`${
-                        index === clicked ? "visible" : "invisible"
+                        index === activeBoardIndex ? "visible" : "invisible"
                       } stroke-white hover:stroke-red-600 `}
                       width={20}
                       height={20}

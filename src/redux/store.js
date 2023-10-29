@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 
+import boardReducer from "./slices/boardSlice";
+
 const store = configureStore({
-  name: "kanban_store",
-  reducer: {},
+  reducer: {
+    kanban_board: boardReducer,
+  },
 });
 
 export default store;

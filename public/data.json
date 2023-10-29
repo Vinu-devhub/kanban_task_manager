@@ -102,29 +102,29 @@
       "columns": [
         {
           "id": "col_1",
-          "title": "To Do",
+          "title": "Not Started",
           "tasks": [
             {
               "id": "task_1",
-              "title": "Task 1",
+              "title": "Task 10",
               "description": "Description 1",
-              "status": "To Do",
+              "status": "Not Started",
               "priority": "Low",
               "date": "2023-05-01"
             },
             {
               "id": "task_2",
-              "title": "Task 2",
+              "title": "Task 11",
               "description": "Description 2",
-              "status": "To Do",
+              "status": "Not Started",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_3",
-              "title": "Task 3",
+              "title": "Task 12",
               "description": "Description 3",
-              "status": "To Do",
+              "status": "Not Started",
               "priority": "High",
               "date": "2023-05-01"
             }
@@ -136,7 +136,7 @@
           "tasks": [
             {
               "id": "task_4",
-              "title": "Task 4",
+              "title": "Task 14",
               "description": "Description 4",
               "status": "In Progress",
               "priority": "High",
@@ -144,7 +144,7 @@
             },
             {
               "id": "task_5",
-              "title": "Task 5",
+              "title": "Task 15",
               "description": "Description 5",
               "status": "In Progress",
               "priority": "Low",
@@ -152,7 +152,7 @@
             },
             {
               "id": "task_6",
-              "title": "Task 6",
+              "title": "Task 16",
               "description": "Description 6",
               "status": "In Progress",
               "priority": "Medium",
@@ -162,29 +162,29 @@
         },
         {
           "id": "col_3",
-          "title": "Done",
+          "title": "Completed",
           "tasks": [
             {
               "id": "task_7",
-              "title": "Task 7",
+              "title": "Task 17",
               "description": "Description 7",
-              "status": "Done",
+              "status": "Completed",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_8",
-              "title": "Task 8",
+              "title": "Task 18",
               "description": "Description 8",
-              "status": "Done",
+              "status": "Completed",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_9",
-              "title": "Task 9",
+              "title": "Task 19",
               "description": "Description 9",
-              "status": "Done",
+              "status": "Completed",
               "priority": "Low",
               "date": "2023-05-01"
             }
@@ -198,29 +198,29 @@
       "columns": [
         {
           "id": "col_1",
-          "title": "To Do",
+          "title": "Review",
           "tasks": [
             {
               "id": "task_1",
-              "title": "Task 1",
+              "title": "Task 20",
               "description": "Description 1",
-              "status": "To Do",
+              "status": "Review",
               "priority": "Low",
               "date": "2023-05-01"
             },
             {
               "id": "task_2",
-              "title": "Task 2",
+              "title": "Task 21",
               "description": "Description 2",
-              "status": "To Do",
+              "status": "Review",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_3",
-              "title": "Task 3",
+              "title": "Task 22",
               "description": "Description 3",
-              "status": "To Do",
+              "status": "Review",
               "priority": "High",
               "date": "2023-05-01"
             }
@@ -228,29 +228,29 @@
         },
         {
           "id": "col_2",
-          "title": "In Progress",
+          "title": "In Draft",
           "tasks": [
             {
               "id": "task_4",
-              "title": "Task 4",
+              "title": "Task 24",
               "description": "Description 4",
-              "status": "In Progress",
+              "status": "In Draft",
               "priority": "High",
               "date": "2023-05-01"
             },
             {
               "id": "task_5",
-              "title": "Task 5",
+              "title": "Task 25",
               "description": "Description 5",
-              "status": "In Progress",
+              "status": "In Draft",
               "priority": "Low",
               "date": "2023-05-01"
             },
             {
               "id": "task_6",
-              "title": "Task 6",
+              "title": "Task 26",
               "description": "Description 6",
-              "status": "In Progress",
+              "status": "In Draft",
               "priority": "Medium",
               "date": "2023-05-01"
             }
@@ -258,29 +258,59 @@
         },
         {
           "id": "col_3",
-          "title": "Done",
+          "title": "Review",
           "tasks": [
             {
               "id": "task_7",
-              "title": "Task 7",
+              "title": "Task 27",
               "description": "Description 7",
-              "status": "Done",
+              "status": "Review",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_8",
-              "title": "Task 8",
+              "title": "Task 28",
               "description": "Description 8",
-              "status": "Done",
+              "status": "Review",
               "priority": "Medium",
               "date": "2023-05-01"
             },
             {
               "id": "task_9",
-              "title": "Task 9",
+              "title": "Task 29",
               "description": "Description 9",
-              "status": "Done",
+              "status": "Review",
+              "priority": "Low",
+              "date": "2023-05-01"
+            }
+          ]
+        },
+        {
+          "id": "col_4",
+          "title": "Revisit Later",
+          "tasks": [
+            {
+              "id": "task_10",
+              "title": "Task 30",
+              "description": "Description 7",
+              "status": "Revisit Later",
+              "priority": "Medium",
+              "date": "2023-05-01"
+            },
+            {
+              "id": "task_11",
+              "title": "Task 31",
+              "description": "Description 8",
+              "status": "Revisit Later",
+              "priority": "Medium",
+              "date": "2023-05-01"
+            },
+            {
+              "id": "task_12",
+              "title": "Task 32",
+              "description": "Description 9",
+              "status": "Revisit Later",
               "priority": "Low",
               "date": "2023-05-01"
             }
