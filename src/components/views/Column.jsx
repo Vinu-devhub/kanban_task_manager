@@ -51,7 +51,7 @@ const Column = ({ column }) => {
       <div
         ref={setNodeRef}
         style={style}
-        className=" min-w-full h-full flex flex-col bg-transparent rounded-2xl py-2 border-dashed border-2 border-white   "
+        className=" min-w-full h-full flex flex-col bg-transparent rounded-2xl py-2 border-dashed border-2 border-blue-600   "
       ></div>
     );
   }
@@ -127,7 +127,7 @@ const Column = ({ column }) => {
         </DropdownMenuRoot>
       </div>
       <div className=" overflow-y-auto space-y-4 w-full h-full p-3">
-        <AddTask />
+        <AddTask columnId={column.id} />
         {column?.tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}

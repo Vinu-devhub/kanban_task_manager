@@ -117,6 +117,25 @@ const boardSlice = createSlice({
 
       return state;
     },
+    addTask: (state, action) => {
+      const newTask = {
+        id: currentID++,
+        title: action.payload.title,
+        description: action.payload.description,
+        priority: action.payload.priority,
+        date: action.payload.date,
+      };
+
+      console.log("Action payload fom addTask: ", action.payload);
+
+      const columns = state.boards[state.activeBoardIndex].columns;
+
+      const column = columns.find(
+        (column) => column.id === action.payload.columnId,
+      );
+
+      column.tasks = [...column.tasks, newTask];
+    },
   },
 });
 
@@ -132,4 +151,5 @@ export const {
   deleteColumn,
   setActiveColumn,
   setColumns,
+  addTask,
 } = boardSlice.actions;

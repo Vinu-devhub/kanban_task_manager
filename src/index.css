@@ -38,3 +38,16 @@
   ); /* Adjust the alpha value to control darkness */
   backdrop-filter: blur(8px); /* Adjust the blur value to control blurriness */
 }
+
+.rt-TextAreaInput {
+  @apply bg-slate-950 text-white text-sm placeholder:text-white;
+}
+
+.rt-SelectTriggerInner {
+  @apply text-white;
+}
+
+.rt-SelectTrigger:where(.rt-variant-surface):where([data-placeholder])
+  :where(.rt-SelectTriggerInner) {
+  @apply text-white;
+}
