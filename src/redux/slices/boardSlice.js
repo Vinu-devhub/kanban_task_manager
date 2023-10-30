@@ -91,6 +91,32 @@ const boardSlice = createSlice({
         ),
       };
     },
+    setActiveColumn: (state, action) => {
+      state.activeColumn = action.payload;
+    },
+    setColumns: (state, action) => {
+      const activeColumnIndex = state.boards[
+        state.activeBoardIndex
+      ].columns.findIndex(
+        (column) => column.id === action.payload.activeColumnId,
+      );
+
+      const overColumnIndex = state.boards[
+        state.activeBoardIndex
+      ].columns.findIndex(
+        (column) => column.id === action.payload.overColumnId,
+      );
+
+      // Perform the move operation
+      const columns = [...state.boards[state.activeBoardIndex].columns];
+      const [movedColumn] = columns.splice(activeColumnIndex, 1);
+      columns.splice(overColumnIndex, 0, movedColumn);
+
+      // Update the state with the new columns array
+      state.boards[state.activeBoardIndex].columns = columns;
+
+      return state;
+    },
   },
 });
 
@@ -104,4 +130,6 @@ export const {
   addColumn,
   editColumn,
   deleteColumn,
+  setActiveColumn,
+  setColumns,
 } = boardSlice.actions;

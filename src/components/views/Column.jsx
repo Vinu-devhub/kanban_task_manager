@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -10,10 +12,11 @@ import {
   DropdownMenuTrigger,
   Flex,
 } from "@radix-ui/themes";
-import { MoreHorizontal, PenSquare, PlusCircle, Trash } from "lucide-react";
+import { MoreHorizontal, PenSquare, Trash } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteColumn, editColumn } from "../../redux/slices/boardSlice";
+import AddTask from "./AddTask";
 import Task from "./Task";
 
 const Column = ({ column }) => {
@@ -23,9 +26,47 @@ const Column = ({ column }) => {
 
   const dispatch = useDispatch();
 
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: column.id,
+    data: {
+      type: "Column",
+      column,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className=" min-w-full h-full flex flex-col bg-transparent rounded-2xl py-2 border-dashed border-2 border-white   "
+      ></div>
+    );
+  }
+
   return (
-    <div className=" min-w-full h-full flex flex-col bg-[#24262C] rounded-xl py-2   ">
-      <div className=" flex justify-between px-3">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className=" min-w-full h-full flex flex-col bg-[#24262C] rounded-xl py-2   "
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className=" flex justify-between px-3"
+      >
         <p className=" font-medium text-slate-400 pb-2">
           ({column.tasks.length}){" "}
           {editMode ? (
@@ -86,10 +127,7 @@ const Column = ({ column }) => {
         </DropdownMenuRoot>
       </div>
       <div className=" overflow-y-auto space-y-4 w-full h-full p-3">
-        <div className=" h-20 w-full border-2 bg-[#292B31] shadow-lg border-dashed border-white/40 rounded-xl p-3 flex items-center justify-center gap-4 cursor-pointer ">
-          <PlusCircle />
-          <span className=" text-lg">Add Task</span>
-        </div>
+        <AddTask />
         {column?.tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}
