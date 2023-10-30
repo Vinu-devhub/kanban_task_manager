@@ -49,7 +49,6 @@ const boardSlice = createSlice({
         title: action.payload,
         columns: [],
       };
-
       state.boards = [...state.boards, newBoard];
     },
     editBoardName: (state, action) => {
@@ -62,10 +61,47 @@ const boardSlice = createSlice({
         (board) => board.id !== action.payload,
       );
     },
+    addColumn: (state, action) => {
+      const newColumn = {
+        id: currentID++,
+        title: action.payload.columnName,
+        tasks: [],
+      };
+      state.boards[state.activeBoardIndex] = {
+        ...state.boards[state.activeBoardIndex],
+        columns: [...state.boards[state.activeBoardIndex].columns, newColumn],
+      };
+    },
+    editColumn: (state, action) => {
+      const editedColumn = action.payload.columnId;
+      state.boards[state.activeBoardIndex].columns = state.boards[
+        state.activeBoardIndex
+      ].columns.map((column) => {
+        if (column.id === editedColumn) {
+          return { ...column, title: action.payload.title };
+        }
+        return column;
+      });
+    },
+    deleteColumn: (state, action) => {
+      state.boards[state.activeBoardIndex] = {
+        ...state.boards[state.activeBoardIndex],
+        columns: state.boards[state.activeBoardIndex].columns.filter(
+          (column) => column.id !== action.payload,
+        ),
+      };
+    },
   },
 });
 
 export default boardSlice.reducer;
 
-export const { setActiveBoardIndex, addBoard, editBoardName, deleteBoard } =
-  boardSlice.actions;
+export const {
+  setActiveBoardIndex,
+  addBoard,
+  editBoardName,
+  deleteBoard,
+  addColumn,
+  editColumn,
+  deleteColumn,
+} = boardSlice.actions;

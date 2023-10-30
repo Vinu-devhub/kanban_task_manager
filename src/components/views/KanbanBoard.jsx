@@ -3,7 +3,7 @@ import BoardMenu from "./BoardMenu";
 
 const KanbanBoard = () => {
   return (
-    <div className=" flex-grow flex flex-col min-h-0 ">
+    <div className=" flex-grow flex flex-col min-h-0 mt-0 ">
       <BoardMenu />
       <Board />
     </div>

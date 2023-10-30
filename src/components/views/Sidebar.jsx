@@ -42,7 +42,6 @@ const Sidebar = () => {
     (state) => state.kanban_board,
   );
 
-
   return (
     <div className=" w-72 h-full bg-[#222327] text-white p-7">
       <div className=" space-y-20">
@@ -55,7 +54,7 @@ const Sidebar = () => {
             {boards.map((board, index) => (
               <div
                 key={board.id}
-                className={`flex gap-2 items-center justify-between hover:bg-slate-900 outline-none ${
+                className={`flex gap-2 items-center justify-between hover:bg-slate-900 hover:ring-2 hover:ring-white outline-none ${
                   index === activeBoardIndex ? "bg-blue-600" : ""
                 } ${
                   editName && editBoardIndex === index
@@ -152,8 +151,7 @@ const Sidebar = () => {
               variant="soft"
               color="gray"
               className=" bg-slate-600 text-white cursor-pointer"
-              onClick={(e) => {
-                e.preventDefault();
+              onClick={() => {
                 setOpenDelete(false);
               }}
             >

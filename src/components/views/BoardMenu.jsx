@@ -10,7 +10,7 @@ const BoardMenu = () => {
   return (
     <div className=" flex items-center justify-between border-b border-gray-600 ">
       <div className=" flex gap-4 ">
-        <div className=" flex items-center gap-2 border-b-2 py-4 px-2 cursor-pointer ">
+        <div className=" flex items-center gap-2 border-b-2 py-2 px-2 cursor-pointer ">
           <GalleryHorizontal width={16} height={16} />
           <p className=" text-base">Board View</p>
         </div>
@@ -25,7 +25,7 @@ const BoardMenu = () => {
           </div>
         </Tooltip>
       </div>
-      <div className=" flex items-center gap-4 pr-4 ">
+      <div className=" flex items-center gap-4 pr-4 pb-2 ">
         <p>Filter</p>
         <p>Sort</p>
         <div>

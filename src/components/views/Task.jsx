@@ -20,8 +20,8 @@ const Task = ({ task }) => {
     <div className=" max-h-36 h-full w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md  rounded-xl p-3 space-y-4 flex flex-col justify-between  ">
       <div className=" flex justify-between p-1">
         <div className=" space-y-3">
-          <p className=" w-56 truncate text-lg font-medium">{task.title}</p>
-          <p className=" w-60 truncate text-white/60 ">{task.description}</p>
+          <p className=" w-48 truncate text-lg font-medium">{task.title}</p>
+          <p className=" w-56 truncate text-white/60 ">{task.description}</p>
         </div>
         <div>
           <MoreHorizontal className=" stroke-white p-1 rounded-full bg-white/10 border-2 border-gray-500 cursor-pointer" />
