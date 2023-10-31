@@ -22,23 +22,15 @@
               "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, minus explicabo. Non, laudantium? Ex officiis, cupiditate officia molestias consectetur omnis voluptatibus accusamus laboriosam beatae dolore veniam labore animi exercitationem a, suscipit aut? Nulla non fuga praesentium voluptatem, consequatur ipsum natus?",
               "status": "To Do",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_3",
-              "title": "Task 3 asjkd",
+              "title": "Task 3",
               "description": "",
               "status": "To Do",
               "priority": "High",
-              "date": "2023-05-01"
-            },
-            {
-              "id": "task_3",
-              "title": "Task 3 asjkd",
-              "description": "",
-              "status": "To Do",
-              "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -52,7 +44,7 @@
               "description": "",
               "status": "In Progress",
               "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_5",
@@ -60,15 +52,7 @@
               "description": "Description 5",
               "status": "In Progress",
               "priority": "Low",
-              "date": "2023-05-01"
-            },
-            {
-              "id": "task_6",
-              "title": "Task 6",
-              "description": "Description 6",
-              "status": "In Progress",
-              "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -77,28 +61,12 @@
           "title": "Done",
           "tasks": [
             {
-              "id": "task_7",
-              "title": "Task 7",
-              "description": "Description 7",
+              "id": "task_6",
+              "title": "Task 6",
+              "description": "Description 6",
               "status": "Done",
               "priority": "Medium",
-              "date": "2023-05-01"
-            },
-            {
-              "id": "task_8",
-              "title": "Task 8",
-              "description": "Description 8",
-              "status": "Done",
-              "priority": "Medium",
-              "date": "2023-05-01"
-            },
-            {
-              "id": "task_9",
-              "title": "Task 9",
-              "description": "Description 9",
-              "status": "Done",
-              "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         }
@@ -118,7 +86,7 @@
               "description": "Description 1",
               "status": "Not Started",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_2",
@@ -126,7 +94,7 @@
               "description": "Description 2",
               "status": "Not Started",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_3",
@@ -134,7 +102,7 @@
               "description": "Description 3",
               "status": "Not Started",
               "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -148,7 +116,7 @@
               "description": "Description 4",
               "status": "In Progress",
               "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_5",
@@ -156,7 +124,7 @@
               "description": "Description 5",
               "status": "In Progress",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_6",
@@ -164,7 +132,7 @@
               "description": "Description 6",
               "status": "In Progress",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -178,7 +146,7 @@
               "description": "Description 7",
               "status": "Completed",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_8",
@@ -186,7 +154,7 @@
               "description": "Description 8",
               "status": "Completed",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_9",
@@ -194,7 +162,7 @@
               "description": "Description 9",
               "status": "Completed",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         }
@@ -214,7 +182,7 @@
               "description": "Description 1",
               "status": "Review",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_2",
@@ -222,7 +190,7 @@
               "description": "Description 2",
               "status": "Review",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_3",
@@ -230,7 +198,7 @@
               "description": "Description 3",
               "status": "Review",
               "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -244,7 +212,7 @@
               "description": "Description 4",
               "status": "In Draft",
               "priority": "High",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_5",
@@ -252,7 +220,7 @@
               "description": "Description 5",
               "status": "In Draft",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_6",
@@ -260,7 +228,7 @@
               "description": "Description 6",
               "status": "In Draft",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -274,7 +242,7 @@
               "description": "Description 7",
               "status": "Review",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_8",
@@ -282,7 +250,7 @@
               "description": "Description 8",
               "status": "Review",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_9",
@@ -290,7 +258,7 @@
               "description": "Description 9",
               "status": "Review",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         },
@@ -304,7 +272,7 @@
               "description": "Description 7",
               "status": "Revisit Later",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_11",
@@ -312,7 +280,7 @@
               "description": "Description 8",
               "status": "Revisit Later",
               "priority": "Medium",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             },
             {
               "id": "task_12",
@@ -320,7 +288,7 @@
               "description": "Description 9",
               "status": "Revisit Later",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "1 Nov 2023"
             }
           ]
         }

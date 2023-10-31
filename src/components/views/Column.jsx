@@ -6,16 +6,13 @@ import {
   AlertDialogRoot,
   AlertDialogTitle,
   Button,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuRoot,
-  DropdownMenuTrigger,
   Flex,
 } from "@radix-ui/themes";
-import { MoreHorizontal, PenSquare, Trash } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteColumn, editColumn } from "../../redux/slices/boardSlice";
+import AddTaskCard from "../ui/AddTaskCard";
+import DropMenu from "../ui/DropMenu";
 import AddTask from "./AddTask";
 import Task from "./Task";
 
@@ -23,6 +20,7 @@ const Column = ({ column }) => {
   const [editMode, setEditMode] = useState(false);
   const [deleteMode, setDeleteMode] = useState(false);
   const [columnName, setColumnName] = useState("");
+  const [editTask, setEditTask] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -55,6 +53,15 @@ const Column = ({ column }) => {
       ></div>
     );
   }
+
+  const onEdit = () => {
+    setColumnName(column.title);
+    setEditMode(true);
+  };
+
+  const onDelete = () => {
+    setDeleteMode(true);
+  };
 
   return (
     <div
@@ -92,44 +99,19 @@ const Column = ({ column }) => {
             column.title
           )}
         </p>
-        <DropdownMenuRoot>
-          <DropdownMenuTrigger asChild>
-            <MoreHorizontal
-              className={` stroke-white hover:stroke-red-600 cursor-pointer `}
-              width={20}
-              height={20}
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className=" bg-slate-900 text-white">
-            <DropdownMenuItem
-              className=" space-x-4 cursor-pointer"
-              onClick={() => {
-                setColumnName(column.title);
-                setEditMode(true);
-              }}
-            >
-              <span className=" text-base ">Edit</span>
-              <span>
-                <PenSquare width={20} height={20} stroke="white" />
-              </span>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className=" space-x-4 cursor-pointer"
-              color="red"
-              onClick={() => setDeleteMode(true)}
-            >
-              <span className=" text-base">Delete</span>{" "}
-              <span>
-                <Trash width={20} height={20} stroke="white" />
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenuRoot>
+        <DropMenu onEdit={onEdit} onDelete={onDelete} />
       </div>
       <div className=" overflow-y-auto space-y-4 w-full h-full p-3">
-        <AddTask columnId={column.id} />
+        <div>
+          <AddTaskCard setEditTask={setEditTask} />
+          <AddTask
+            columnId={column.id}
+            editTask={editTask}
+            setEditTask={setEditTask}
+          />
+        </div>
         {column?.tasks.map((task) => (
-          <Task key={task.id} task={task} />
+          <Task key={task.id} columnId={column.id} task={task} />
         ))}
       </div>
       <AlertDialogRoot open={deleteMode}>

@@ -136,6 +136,17 @@ const boardSlice = createSlice({
 
       column.tasks = [...column.tasks, newTask];
     },
+    deleteTask: (state, action) => {
+      const column = state.boards[state.activeBoardIndex].columns.find(
+        (column) => column.id === action.payload.columnId,
+      );
+
+      const updatedTasks = column.tasks.filter(
+        (task) => task.id !== action.payload.taskId,
+      );
+
+      column.tasks = updatedTasks;
+    },
   },
 });
 
@@ -152,4 +163,5 @@ export const {
   setActiveColumn,
   setColumns,
   addTask,
+  deleteTask,
 } = boardSlice.actions;

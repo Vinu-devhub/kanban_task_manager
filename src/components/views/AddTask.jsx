@@ -4,7 +4,6 @@ import {
   DialogContent,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
   Flex,
   SelectContent,
   SelectItem,
@@ -14,30 +13,24 @@ import {
   TextArea,
   TextFieldInput,
 } from "@radix-ui/themes";
-import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/slices/boardSlice";
 
-const AddTask = ({ columnId }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [textareaValue, setTextareaValue] = useState("");
-  const [selectValue, setSelectValue] = useState("");
+const AddTask = ({
+  columnId,
+  editTask,
+  setEditTask,
+  title,
+  description,
+  priority,
+}) => {
+  const [inputValue, setInputValue] = useState(`${title || ""}`);
+  const [textareaValue, setTextareaValue] = useState(`${description || ""}`);
+  const [selectValue, setSelectValue] = useState(`${priority || ""}`);
   const [error, setError] = useState("");
 
   const dispatch = useDispatch();
-
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
-  const handleTextareaChange = (event) => {
-    setTextareaValue(event.target.value);
-  };
-
-  const handleSelectChange = (event) => {
-    setSelectValue(event);
-  };
 
   const handleSubmit = (e) => {
     if (!inputValue || !selectValue) {
@@ -60,6 +53,7 @@ const AddTask = ({ columnId }) => {
       }),
     );
 
+    setEditTask(false);
     setInputValue("");
     setTextareaValue("");
     setSelectValue("");
@@ -67,15 +61,9 @@ const AddTask = ({ columnId }) => {
   };
 
   return (
-    <DialogRoot>
-      <DialogTrigger>
-        <div className=" h-20 w-full border-2 bg-[#292B31] shadow-md hover:shadow-lg border-dashed border-white/40 rounded-xl p-3 flex items-center justify-center gap-4 cursor-pointer hover:scale-105 active:scale-95 duration-300">
-          <PlusCircle />
-          <span className=" text-lg">Add Task</span>
-        </div>
-      </DialogTrigger>
+    <DialogRoot open={editTask}>
       <DialogContent className=" bg-[#18191b] text-white">
-        <DialogTitle>Add New Task</DialogTitle>
+        <DialogTitle>{!title ? "Add New Task" : "Edit Task"}</DialogTitle>
         <Flex direction="column" gap="4">
           <label>
             <Text as="div" size="2" mb="2" weight="bold">
@@ -86,7 +74,9 @@ const AddTask = ({ columnId }) => {
               placeholder="Enter task name"
               className=" bg-slate-950 text-white placeholder:text-white"
               value={inputValue}
-              onChange={handleInputChange}
+              onChange={(event) => {
+                setInputValue(event.target.value);
+              }}
               required
             />
             {error === "name" && (
@@ -103,14 +93,21 @@ const AddTask = ({ columnId }) => {
               color="blue"
               placeholder="Enter task description"
               value={textareaValue}
-              onChange={handleTextareaChange}
+              onChange={(event) => {
+                setTextareaValue(event.target.value);
+              }}
             />
           </label>
           <label>
             <Text as="div" size="2" mb="2" weight="bold">
               Task Priority
             </Text>
-            <SelectRoot value={selectValue} onValueChange={handleSelectChange}>
+            <SelectRoot
+              value={selectValue}
+              onValueChange={(event) => {
+                setSelectValue(event);
+              }}
+            >
               <SelectTrigger
                 placeholder="Select a priority..."
                 className=" w-full border cursor-pointer bg-slate-950"
@@ -143,6 +140,7 @@ const AddTask = ({ columnId }) => {
             <Button
               variant="soft"
               className=" bg-slate-600 text-white cursor-pointer"
+              onClick={() => setEditTask(false)}
             >
               Cancel
             </Button>

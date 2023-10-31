@@ -1,10 +1,27 @@
-import { Avatar, Badge } from "@radix-ui/themes";
-import { MoreVertical, UserCircle } from "lucide-react";
+import {
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogRoot,
+  AlertDialogTitle,
+  Avatar,
+  Badge,
+  Button,
+  Flex,
+} from "@radix-ui/themes";
+import { UserCircle } from "lucide-react";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../../redux/slices/boardSlice";
+import DropMenu from "../ui/DropMenu";
+import AddTask from "./AddTask";
 import DisplayTask from "./DisplayTask";
 
-const Task = ({ task }) => {
+const Task = ({ columnId, task }) => {
   const [display, setDisplay] = useState(false);
+  const [editTask, setEditTask] = useState(false);
+  const [deleteMode, setDeleteMode] = useState(false);
+
+  const dispatch = useDispatch();
 
   const gettaskPriorityColor = (priority) => {
     switch (priority) {
@@ -17,6 +34,16 @@ const Task = ({ task }) => {
       default:
         return "";
     }
+  };
+
+  const onEdit = (e) => {
+    e.stopPropagation();
+    setEditTask(true);
+  };
+
+  const onDelete = (e) => {
+    e.stopPropagation();
+    setDeleteMode(true);
   };
 
   return (
@@ -36,8 +63,7 @@ const Task = ({ task }) => {
             </Badge>
           </div>
           <div>
-            {/* <MoreHorizontal className=" stroke-white p-1 rounded-full  cursor-pointer" /> */}
-            <MoreVertical className=" stroke-white p-1 rounded-full  cursor-pointer" />
+            <DropMenu onEdit={onEdit} onDelete={onDelete} type={"vertical"} />
           </div>
         </div>
         <div className=" flex-1 flex flex-col justify-between px-1">
@@ -45,7 +71,11 @@ const Task = ({ task }) => {
             <p className=" w-48 tracking-wide truncate text-lg font-medium">
               {task.title}
             </p>
-            <p className=" w-44 text-sm tracking-wide truncate text-white/60 ">
+            <p
+              className={`w-44 text-sm tracking-wide truncate ${
+                task.description ? "text-white/60" : " text-slate-700"
+              } `}
+            >
               {task.description ? task.description : "No Description"}
             </p>
           </div>
@@ -70,6 +100,50 @@ const Task = ({ task }) => {
         priority={task.priority}
         date={task.date}
       />
+      <AddTask
+        editTask={editTask}
+        setEditTask={setEditTask}
+        title={task.title}
+        description={task.description}
+        priority={task.priority}
+        date={task.date}
+        columnId={columnId}
+      />
+      <AlertDialogRoot open={deleteMode}>
+        <AlertDialogContent
+          style={{ maxWidth: 450 }}
+          className=" bg-[#18191b] text-white"
+        >
+          <AlertDialogTitle>Delete Task </AlertDialogTitle>
+          <AlertDialogDescription size="3">
+            Are you sure? This task will no longer be accessible.
+          </AlertDialogDescription>
+
+          <Flex gap="3" mt="4" justify="end">
+            <Button
+              variant="soft"
+              color="gray"
+              className=" bg-slate-600 text-white cursor-pointer"
+              onClick={() => {
+                setDeleteMode(false);
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="solid"
+              color="red"
+              onClick={() => {
+                dispatch(deleteTask({ columnId, taskId: task.id }));
+                setDeleteMode(false);
+              }}
+              className=" cursor-pointer bg-red-600 hover:bg-red-800 "
+            >
+              Delete
+            </Button>
+          </Flex>
+        </AlertDialogContent>
+      </AlertDialogRoot>
     </>
   );
 };
