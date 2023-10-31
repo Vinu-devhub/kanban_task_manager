@@ -1,3 +1,5 @@
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   AlertDialogContent,
   AlertDialogDescription,
@@ -46,9 +48,44 @@ const Task = ({ columnId, task }) => {
     setDeleteMode(true);
   };
 
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: task.id,
+    data: {
+      type: "Task",
+      task,
+      columnId,
+    },
+  });
+
+  const style = {
+    transition,
+    transform: CSS.Transform.toString(transform),
+  };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className=" max-h-36 h-full w-full bg-transparent  bg-opacity border-2 border-dashed border-white rounded-lg p-3 space-y-2 flex flex-col"
+      />
+    );
+  }
+
   return (
     <>
       <div
+        {...attributes}
+        {...listeners}
+        ref={setNodeRef}
+        style={style}
         className=" max-h-36 h-full w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md rounded-lg p-3 space-y-2 flex flex-col hover:cursor-pointer active:cursor-grab "
         onClick={() => setDisplay(true)}
       >
@@ -83,7 +120,7 @@ const Task = ({ columnId, task }) => {
             <Avatar
               size="1"
               radius="full"
-              src="https://api.lorem.space/image/face"
+              // src="https://api.lorem.space/image/face"
               fallback={<UserCircle stroke="gray" />}
             />
             <Badge className=" bg-black/10 text-white rounded px-3  py-1">

@@ -1,4 +1,4 @@
-import { useSortable } from "@dnd-kit/sortable";
+import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   AlertDialogContent,
@@ -8,7 +8,7 @@ import {
   Button,
   Flex,
 } from "@radix-ui/themes";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteColumn, editColumn } from "../../redux/slices/boardSlice";
 import AddTaskCard from "../ui/AddTaskCard";
@@ -21,6 +21,10 @@ const Column = ({ column }) => {
   const [deleteMode, setDeleteMode] = useState(false);
   const [columnName, setColumnName] = useState("");
   const [editTask, setEditTask] = useState(false);
+
+  const tasksIds = useMemo(() => {
+    return column.tasks.map((task) => task.id);
+  }, [column.tasks]);
 
   const dispatch = useDispatch();
 
@@ -110,9 +114,11 @@ const Column = ({ column }) => {
             setEditTask={setEditTask}
           />
         </div>
-        {column?.tasks.map((task) => (
-          <Task key={task.id} columnId={column.id} task={task} />
-        ))}
+        <SortableContext items={tasksIds}>
+          {column?.tasks.map((task) => (
+            <Task key={task.id} columnId={column.id} task={task} />
+          ))}
+        </SortableContext>
       </div>
       <AlertDialogRoot open={deleteMode}>
         <AlertDialogContent

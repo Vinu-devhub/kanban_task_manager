@@ -147,6 +147,107 @@ const boardSlice = createSlice({
 
       column.tasks = updatedTasks;
     },
+    setActiveTask: (state, action) => {
+      state.activeTask = action.payload;
+    },
+
+    setTasks: (state, action) => {
+      const { columnId, activeTaskId, overTaskId, overColumnId } =
+        action.payload;
+
+      const activeColumn = state.boards[state.activeBoardIndex].columns.find(
+        (column) => column.id === columnId,
+      );
+
+      const overColumn = state.boards[state.activeBoardIndex].columns.find(
+        (column) => column.id === overColumnId,
+      );
+
+      if (!activeColumn || !overColumn) {
+        return state;
+      }
+
+      let activeTaskIndex;
+
+      if (activeColumn) {
+        activeTaskIndex = activeColumn.tasks.findIndex(
+          (task) => task.id === activeTaskId,
+        );
+      }
+
+      let overTaskIndex;
+
+      if (overColumn) {
+        overTaskIndex = overColumn.tasks.findIndex(
+          (task) => task.id === overTaskId,
+        );
+      }
+
+      if (activeTaskIndex === -1) {
+        return state;
+      }
+
+      // const activeTask = activeColumn?.tasks[activeTaskIndex];
+
+      let activeColumnTasks;
+
+      if (activeColumn) {
+        activeColumnTasks = [...activeColumn.tasks];
+      }
+
+      let overColumnTasks;
+
+      if (overColumn) {
+        overColumnTasks = [...overColumn.tasks];
+      }
+
+      const tasks = [...activeColumnTasks];
+      const [movedTask] = tasks.splice(activeTaskIndex, 1);
+
+      // if (overTaskIndex === -1) {
+      //   overColumn.tasks.push(movedTask);
+      // }
+
+      if (columnId === overColumnId) {
+        tasks.splice(overTaskIndex, 0, movedTask);
+
+        activeColumn.tasks = tasks;
+
+        state.boards[state.activeBoardIndex].columns = state.boards[
+          state.activeBoardIndex
+        ].columns.map((column) => {
+          if (column.id === activeColumn.id) {
+            return activeColumn;
+          } else if (column.id === overColumn.id) {
+            return overColumn;
+          }
+          return column;
+        });
+      }
+
+      if (columnId !== overColumnId) {
+        overColumnTasks.splice(overTaskIndex, 0, movedTask);
+
+        activeColumn.tasks = tasks;
+
+        if (overTaskId) {
+          overColumn.tasks = overColumnTasks;
+        } else {
+          overColumn.tasks = [...overColumn.tasks, movedTask];
+        }
+
+        state.boards[state.activeBoardIndex].columns = state.boards[
+          state.activeBoardIndex
+        ].columns.map((column) => {
+          if (column.id === activeColumn.id) {
+            return activeColumn;
+          } else if (column.id === overColumn.id) {
+            return overColumn;
+          }
+          return column;
+        });
+      }
+    },
   },
 });
 
@@ -164,4 +265,6 @@ export const {
   setColumns,
   addTask,
   deleteTask,
+  setActiveTask,
+  setTasks,
 } = boardSlice.actions;
