@@ -59,7 +59,7 @@ const Board = () => {
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
       >
-        <div className=" flex  gap-4 w-[19rem] h-full">
+        <div className=" flex  gap-4 w-72 h-full">
           <SortableContext items={columnsIds}>
             {boards[activeBoardIndex].columns.map((item) => (
               <Column key={item.id} column={item} />

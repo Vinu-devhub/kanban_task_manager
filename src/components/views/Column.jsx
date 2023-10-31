@@ -73,7 +73,7 @@ const Column = ({ column }) => {
             <input
               value={columnName}
               onChange={(e) => setColumnName(e.target.value)}
-              className=" bg-transparent px-2 w-56 border-none outline-none ring-2 ring-blue-600 rounded text-white font-normal"
+              className=" bg-transparent px-2 w-52 border-none outline-none ring-2 ring-blue-600 rounded text-white font-normal"
               maxLength={25}
               autoFocus
               onBlur={() => {

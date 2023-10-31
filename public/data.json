@@ -10,16 +10,16 @@
           "tasks": [
             {
               "id": "task_1",
-              "title": "Task 1 dhjsgadjkgskd sghd sagdksg skjgdksajd kjsagdgsj sadjkgsjkdgsjdg sjkdg",
-              "description": "jhsagdjhsgdhsag gdhsaghg dgsadgsahgd sdgshg",
+              "title": "Welcome to First Task ",
+              "description": "This is a test task description. Check it out: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad neque atque ipsum ea aspernatur repellat minus quisquam ex iste non.",
               "status": "To Do",
               "priority": "Low",
-              "date": "2023-05-01"
+              "date": "01 Nov 2023"
             },
             {
               "id": "task_2",
               "title": "Task 2",
-              "description": "",
+              "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Provident, minus explicabo. Non, laudantium? Ex officiis, cupiditate officia molestias consectetur omnis voluptatibus accusamus laboriosam beatae dolore veniam labore animi exercitationem a, suscipit aut? Nulla non fuga praesentium voluptatem, consequatur ipsum natus?",
               "status": "To Do",
               "priority": "Medium",
               "date": "2023-05-01"

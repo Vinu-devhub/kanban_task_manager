@@ -69,7 +69,7 @@ const AddTask = ({ columnId }) => {
   return (
     <DialogRoot>
       <DialogTrigger>
-        <div className=" h-20 w-full border-2 bg-[#292B31] shadow-md hover:shadow-lg border-dashed border-white/40 rounded-xl p-3 flex items-center justify-center gap-4 cursor-pointer hover:scale-90 duration-300">
+        <div className=" h-20 w-full border-2 bg-[#292B31] shadow-md hover:shadow-lg border-dashed border-white/40 rounded-xl p-3 flex items-center justify-center gap-4 cursor-pointer hover:scale-105 active:scale-95 duration-300">
           <PlusCircle />
           <span className=" text-lg">Add Task</span>
         </div>
@@ -116,7 +116,9 @@ const AddTask = ({ columnId }) => {
                 className=" w-full border cursor-pointer bg-slate-950"
               />
               {error === "priority" && (
-                <span className=" text-red-500">Please select a priority *</span>
+                <span className=" text-red-500">
+                  Please select a priority *
+                </span>
               )}
               <SelectContent
                 className=" bg-slate-950 text-white"
