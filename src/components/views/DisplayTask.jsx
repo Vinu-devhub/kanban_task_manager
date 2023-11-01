@@ -8,15 +8,18 @@ import {
   DialogRoot,
 } from "@radix-ui/themes";
 import { CalendarDays, CheckSquare, ListTodo, Timer } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowTask } from "../../redux/slices/taskSlice";
 
-const DisplayTask = ({
-  showTask,
-  setShowTask,
-  title,
-  description,
-  priority,
-  date,
-}) => {
+const DisplayTask = ({ title, description, priority, date }) => {
+
+  console.log("Task details from Display task component: ", title, description, priority, date);
+
+
+  const { showTask } = useSelector((state) => state.taskState);
+
+  const dispatch = useDispatch();
+
   const gettaskPriorityColor = (priority) => {
     switch (priority) {
       case "High":
@@ -84,7 +87,7 @@ const DisplayTask = ({
         </Card>
         <DialogClose>
           <Button
-            onClick={() => setShowTask(false)}
+            onClick={() => dispatch(setShowTask(!showTask))}
             className=" w-28  bg-rose-600 cursor-pointer"
           >
             Close

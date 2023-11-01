@@ -1,27 +1,32 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogRoot,
-  AlertDialogTitle,
-  Avatar,
-  Badge,
-  Button,
-  Flex,
-} from "@radix-ui/themes";
+import { Avatar, Badge } from "@radix-ui/themes";
 import { UserCircle } from "lucide-react";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteTask } from "../../redux/slices/boardSlice";
+import {
+  setDeleteTaskColumnId,
+  setDeleteTaskId,
+  setDeleteTaskMode,
+  setEditTaskId,
+  setEditTaskMode,
+  setShowTask,
+  setShowTaskId,
+} from "../../redux/slices/taskSlice";
+import DeleteModal from "../ui/DeleteModal";
 import DropMenu from "../ui/DropMenu";
 import AddTask from "./AddTask";
 import DisplayTask from "./DisplayTask";
 
 const Task = ({ columnId, task }) => {
-  const [display, setDisplay] = useState(false);
-  const [editTask, setEditTask] = useState(false);
-  const [deleteMode, setDeleteMode] = useState(false);
+  const {
+    showTask,
+    deleteTaskMode,
+    showTaskId,
+    editTaskId,
+    deleteTaskId,
+    deleteTaskColumnId,
+  } = useSelector((state) => state.taskState);
 
   const dispatch = useDispatch();
 
@@ -40,12 +45,15 @@ const Task = ({ columnId, task }) => {
 
   const onEdit = (e) => {
     e.stopPropagation();
-    setEditTask(true);
+    dispatch(setEditTaskId(task.id));
+    dispatch(setEditTaskMode(true));
   };
 
   const onDelete = (e) => {
     e.stopPropagation();
-    setDeleteMode(true);
+    dispatch(setDeleteTaskMode(true));
+    dispatch(setDeleteTaskId(task.id));
+    dispatch(setDeleteTaskColumnId(columnId));
   };
 
   const {
@@ -79,6 +87,23 @@ const Task = ({ columnId, task }) => {
     );
   }
 
+  const handleCancel = () => {
+    dispatch(setDeleteTaskMode(false));
+    dispatch(setDeleteTaskId(null));
+  };
+
+  const handleDelete = () => {
+    dispatch(
+      deleteTask({
+        columnId: deleteTaskColumnId,
+        taskId: deleteTaskId,
+      }),
+    );
+    dispatch(setDeleteTaskMode(false));
+    dispatch(setDeleteTaskId(null));
+    dispatch(setDeleteTaskColumnId(null));
+  };
+
   return (
     <>
       <div
@@ -86,8 +111,11 @@ const Task = ({ columnId, task }) => {
         {...listeners}
         ref={setNodeRef}
         style={style}
-        className=" max-h-36 h-full w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md rounded-lg p-3 space-y-2 flex flex-col hover:cursor-pointer active:cursor-grab "
-        onClick={() => setDisplay(true)}
+        className=" max-h-36 h-full w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md rounded-lg p-3 space-y-2 flex flex-col cursor-pointer "
+        onClick={() => {
+          dispatch(setShowTaskId(task.id));
+          dispatch(setShowTask(showTask));
+        }}
       >
         <div className=" flex justify-between">
           <div>
@@ -129,58 +157,29 @@ const Task = ({ columnId, task }) => {
           </div>
         </div>
       </div>
-      <DisplayTask
-        showTask={display}
-        setShowTask={setDisplay}
-        title={task.title}
-        description={task.description}
-        priority={task.priority}
-        date={task.date}
-      />
-      <AddTask
-        editTask={editTask}
-        setEditTask={setEditTask}
-        title={task.title}
-        description={task.description}
-        priority={task.priority}
-        date={task.date}
-        columnId={columnId}
-      />
-      <AlertDialogRoot open={deleteMode}>
-        <AlertDialogContent
-          style={{ maxWidth: 450 }}
-          className=" bg-[#18191b] text-white"
-        >
-          <AlertDialogTitle>Delete Task </AlertDialogTitle>
-          <AlertDialogDescription size="3">
-            Are you sure? This task will no longer be accessible.
-          </AlertDialogDescription>
+      {showTaskId === task.id && (
+        <DisplayTask
+          title={task.title}
+          description={task.description}
+          priority={task.priority}
+          date={task.date}
+        />
+      )}
+      {editTaskId === task.id && (
+        <AddTask
+          title={task.title}
+          description={task.description}
+          priority={task.priority}
+          columnId={columnId}
+        />
+      )}
 
-          <Flex gap="3" mt="4" justify="end">
-            <Button
-              variant="soft"
-              color="gray"
-              className=" bg-slate-600 text-white cursor-pointer"
-              onClick={() => {
-                setDeleteMode(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="solid"
-              color="red"
-              onClick={() => {
-                dispatch(deleteTask({ columnId, taskId: task.id }));
-                setDeleteMode(false);
-              }}
-              className=" cursor-pointer bg-red-600 hover:bg-red-800 "
-            >
-              Delete
-            </Button>
-          </Flex>
-        </AlertDialogContent>
-      </AlertDialogRoot>
+      <DeleteModal
+        openModal={deleteTaskMode}
+        deleteTitle={"task"}
+        handleCancel={handleCancel}
+        handleDelete={handleDelete}
+      />
     </>
   );
 };

@@ -1,26 +1,33 @@
 import { SortableContext, useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogRoot,
-  AlertDialogTitle,
-  Button,
-  Flex,
-} from "@radix-ui/themes";
-import { useMemo, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { deleteColumn, editColumn } from "../../redux/slices/boardSlice";
+import {
+  setColumnName,
+  setDeleteColumnId,
+  setDeleteColumnMode,
+  setEditColumnId,
+  setEditColumnMode,
+} from "../../redux/slices/columnSilce";
 import AddTaskCard from "../ui/AddTaskCard";
+import DeleteModal from "../ui/DeleteModal";
 import DropMenu from "../ui/DropMenu";
 import AddTask from "./AddTask";
 import Task from "./Task";
 
 const Column = ({ column }) => {
-  const [editMode, setEditMode] = useState(false);
-  const [deleteMode, setDeleteMode] = useState(false);
-  const [columnName, setColumnName] = useState("");
-  const [editTask, setEditTask] = useState(false);
+  const {
+    columnName,
+    editColumnMode,
+    deleteColumnMode,
+    editColumnId,
+    deleteColumnId,
+  } = useSelector((state) => state.columnState);
+
+  const { editTaskMode, newTaskColumnId } = useSelector(
+    (state) => state.taskState,
+  );
 
   const tasksIds = useMemo(() => {
     return column.tasks.map((task) => task.id);
@@ -58,13 +65,38 @@ const Column = ({ column }) => {
     );
   }
 
+  const handleChange = (e) => {
+    dispatch(setColumnName(e.target.value));
+  };
+
   const onEdit = () => {
-    setColumnName(column.title);
-    setEditMode(true);
+    dispatch(setEditColumnId(column.id));
+    dispatch(setColumnName(column.title));
+    dispatch(setEditColumnMode(true));
   };
 
   const onDelete = () => {
-    setDeleteMode(true);
+    dispatch(setDeleteColumnMode(true));
+    dispatch(setDeleteColumnId(column.id));
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key !== "Enter") return;
+    dispatch(setEditColumnMode(false));
+    dispatch(setColumnName(""));
+    dispatch(setEditColumnId(null));
+    dispatch(editColumn({ columnId: column.id, title: columnName }));
+  };
+
+  const handleCancel = () => {
+    dispatch(setDeleteColumnMode(false));
+    dispatch(setDeleteColumnId(null));
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteColumn(deleteColumnId));
+    dispatch(setDeleteColumnMode(false));
+    dispatch(setDeleteColumnId(null));
   };
 
   return (
@@ -80,24 +112,17 @@ const Column = ({ column }) => {
       >
         <p className=" font-medium text-slate-400 pb-2">
           ({column.tasks.length}){" "}
-          {editMode ? (
+          {editColumnMode && editColumnId === column.id ? (
             <input
               value={columnName}
-              onChange={(e) => setColumnName(e.target.value)}
+              onChange={handleChange}
               className=" bg-transparent px-2 w-52 border-none outline-none ring-2 ring-blue-600 rounded text-white font-normal"
               maxLength={25}
               autoFocus
               onBlur={() => {
-                setEditMode(false);
+                dispatch(setEditColumnMode(false));
               }}
-              onKeyDown={(e) => {
-                if (e.key !== "Enter") return;
-                setEditMode(false);
-                setColumnName("");
-                dispatch(
-                  editColumn({ columnId: column.id, title: columnName }),
-                );
-              }}
+              onKeyDown={handleKeyDown}
             />
           ) : (
             column.title
@@ -107,12 +132,10 @@ const Column = ({ column }) => {
       </div>
       <div className=" overflow-y-auto space-y-4 w-full h-full p-3">
         <div>
-          <AddTaskCard setEditTask={setEditTask} />
-          <AddTask
-            columnId={column.id}
-            editTask={editTask}
-            setEditTask={setEditTask}
-          />
+          <AddTaskCard columnId={column.id} />
+          {editTaskMode && newTaskColumnId === column.id && (
+            <AddTask columnId={newTaskColumnId} />
+          )}
         </div>
         <SortableContext items={tasksIds}>
           {column?.tasks.map((task) => (
@@ -120,41 +143,12 @@ const Column = ({ column }) => {
           ))}
         </SortableContext>
       </div>
-      <AlertDialogRoot open={deleteMode}>
-        <AlertDialogContent
-          style={{ maxWidth: 450 }}
-          className=" bg-[#18191b] text-white"
-        >
-          <AlertDialogTitle>Delete Column </AlertDialogTitle>
-          <AlertDialogDescription size="3">
-            Are you sure? This column will no longer be accessible.
-          </AlertDialogDescription>
-
-          <Flex gap="3" mt="4" justify="end">
-            <Button
-              variant="soft"
-              color="gray"
-              className=" bg-slate-600 text-white cursor-pointer"
-              onClick={() => {
-                setDeleteMode(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="solid"
-              color="red"
-              onClick={() => {
-                dispatch(deleteColumn(column.id));
-                setDeleteMode(false);
-              }}
-              className=" cursor-pointer bg-red-600 hover:bg-red-800 "
-            >
-              Delete
-            </Button>
-          </Flex>
-        </AlertDialogContent>
-      </AlertDialogRoot>
+      <DeleteModal
+        openModal={deleteColumnMode}
+        deleteTitle={"column"}
+        handleCancel={handleCancel}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };

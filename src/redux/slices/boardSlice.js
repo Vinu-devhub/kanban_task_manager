@@ -118,6 +118,8 @@ const boardSlice = createSlice({
       return state;
     },
     addTask: (state, action) => {
+      console.log("Column Id: ", action.payload);
+
       const newTask = {
         id: currentID++,
         title: action.payload.title,
@@ -126,8 +128,6 @@ const boardSlice = createSlice({
         date: action.payload.date,
       };
 
-      console.log("Action payload fom addTask: ", action.payload);
-
       const columns = state.boards[state.activeBoardIndex].columns;
 
       const column = columns.find(
@@ -135,6 +135,30 @@ const boardSlice = createSlice({
       );
 
       column.tasks = [...column.tasks, newTask];
+    },
+    editTask: (state, action) => {
+      const editedTaskId = action.payload.taskId;
+
+      const editedTask = {
+        title: action.payload.title,
+        description: action.payload.description,
+        priority: action.payload.priority,
+        date: action.payload.date,
+      };
+
+      state.boards[state.activeBoardIndex].columns = state.boards[
+        state.activeBoardIndex
+      ].columns.map((column) => {
+        return {
+          ...column,
+          tasks: column.tasks.map((task) => {
+            if (task.id === editedTaskId) {
+              return { ...task, ...editedTask };
+            }
+            return task;
+          }),
+        };
+      });
     },
     deleteTask: (state, action) => {
       const column = state.boards[state.activeBoardIndex].columns.find(
@@ -264,6 +288,7 @@ export const {
   setActiveColumn,
   setColumns,
   addTask,
+  editTask,
   deleteTask,
   setActiveTask,
   setTasks,

@@ -1,14 +1,8 @@
 import {
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogRoot,
-  AlertDialogTitle,
-  Button,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuRoot,
   DropdownMenuTrigger,
-  Flex,
 } from "@radix-ui/themes";
 import {
   GalleryHorizontalEnd,
@@ -23,6 +17,7 @@ import {
   editBoardName,
   setActiveBoardIndex,
 } from "../../redux/slices/boardSlice";
+import DeleteModal from "../ui/DeleteModal";
 import AddBoards from "./AddBoards";
 
 const Sidebar = () => {
@@ -41,6 +36,15 @@ const Sidebar = () => {
   const { boards, activeBoardIndex } = useSelector(
     (state) => state.kanban_board,
   );
+
+  const handleCancel = () => {
+    setOpenDelete(false);
+  };
+
+  const handleDelete = () => {
+    dispatch(deleteBoard(boardId));
+    setOpenDelete(false);
+  };
 
   return (
     <div className=" w-72 h-full bg-[#222327] text-white p-7">
@@ -136,41 +140,12 @@ const Sidebar = () => {
           <AddBoards />
         </div>
       </div>
-      <AlertDialogRoot open={openDelete}>
-        <AlertDialogContent
-          style={{ maxWidth: 450 }}
-          className=" bg-[#18191b] text-white"
-        >
-          <AlertDialogTitle>Delete Board</AlertDialogTitle>
-          <AlertDialogDescription size="3">
-            Are you sure? This board will no longer be accessible.
-          </AlertDialogDescription>
-
-          <Flex gap="3" mt="4" justify="end">
-            <Button
-              variant="soft"
-              color="gray"
-              className=" bg-slate-600 text-white cursor-pointer"
-              onClick={() => {
-                setOpenDelete(false);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="solid"
-              color="red"
-              onClick={() => {
-                dispatch(deleteBoard(boardId));
-                setOpenDelete(false);
-              }}
-              className=" cursor-pointer bg-red-600 hover:bg-red-800 "
-            >
-              Delete
-            </Button>
-          </Flex>
-        </AlertDialogContent>
-      </AlertDialogRoot>
+      <DeleteModal
+        openModal={openDelete}
+        deleteTitle={"board"}
+        handleCancel={handleCancel}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };

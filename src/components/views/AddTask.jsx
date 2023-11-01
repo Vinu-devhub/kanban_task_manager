@@ -14,54 +14,97 @@ import {
   TextFieldInput,
 } from "@radix-ui/themes";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addTask } from "../../redux/slices/boardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, editTask } from "../../redux/slices/boardSlice";
+import {
+  setEditTaskMode,
+  setNewTaskColumnId,
+} from "../../redux/slices/taskSlice";
 
-const AddTask = ({
-  columnId,
-  editTask,
-  setEditTask,
-  title,
-  description,
-  priority,
-}) => {
-  const [inputValue, setInputValue] = useState(`${title || ""}`);
-  const [textareaValue, setTextareaValue] = useState(`${description || ""}`);
-  const [selectValue, setSelectValue] = useState(`${priority || ""}`);
-  const [error, setError] = useState("");
+const AddTask = ({ columnId, title, description, priority }) => {
+  const [values, setValues] = useState({
+    inputValue: title || "",
+    textareaValue: description || "",
+    selectValue: priority || "",
+    error: "",
+  });
+
+  const { editTaskMode, newTaskColumnId, editTaskId } = useSelector(
+    (state) => state.taskState,
+  );
 
   const dispatch = useDispatch();
 
+  const handleChange = (event) => {
+    setValues({ ...values, [event.target.name]: event.target.value });
+  };
+
   const handleSubmit = (e) => {
+    e.preventDefault();
+    const { inputValue, selectValue } = values;
+
     if (!inputValue || !selectValue) {
-      e.preventDefault();
-      setError(`${!inputValue ? "name" : "priority"}`);
+      setValues({ ...values, error: inputValue ? "priority" : "name" });
       return;
     }
 
-    dispatch(
-      addTask({
-        columnId,
-        title: inputValue,
-        description: textareaValue,
-        priority: selectValue,
-        date: new Date().toLocaleDateString("en-IN", {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
+    if (newTaskColumnId) {
+      dispatch(
+        addTask({
+          columnId,
+          title: inputValue,
+          description: values.textareaValue,
+          priority: selectValue,
+          date: new Date().toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
         }),
-      }),
-    );
+      );
+    }
 
-    setEditTask(false);
-    setInputValue("");
-    setTextareaValue("");
-    setSelectValue("");
-    setError("");
+    if (editTaskId) {
+      dispatch(
+        editTask({
+          taskId: editTaskId,
+          title: inputValue,
+          description: values.textareaValue,
+          priority: selectValue,
+          date: new Date().toLocaleDateString("en-IN", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          }),
+        }),
+      );
+    }
+
+    dispatch(setEditTaskMode(false));
+    dispatch(setNewTaskColumnId(null));
+    setValues({
+      ...values,
+      inputValue: "",
+      textareaValue: "",
+      selectValue: "",
+      error: "",
+    });
+  };
+
+  const handleCancel = () => {
+    dispatch(setEditTaskMode(false));
+    dispatch(setNewTaskColumnId(null));
+    setValues({
+      ...values,
+      inputValue: "",
+      textareaValue: "",
+      selectValue: "",
+      error: "",
+    });
   };
 
   return (
-    <DialogRoot open={editTask}>
+    <DialogRoot open={editTaskMode}>
       <DialogContent className=" bg-[#18191b] text-white">
         <DialogTitle>{!title ? "Add New Task" : "Edit Task"}</DialogTitle>
         <Flex direction="column" gap="4">
@@ -73,13 +116,12 @@ const AddTask = ({
               color="blue"
               placeholder="Enter task name"
               className=" bg-slate-950 text-white placeholder:text-white"
-              value={inputValue}
-              onChange={(event) => {
-                setInputValue(event.target.value);
-              }}
+              name="inputValue"
+              value={values.inputValue}
+              onChange={handleChange}
               required
             />
-            {error === "name" && (
+            {values.error === "name" && (
               <span className=" text-red-500">Task name is required *</span>
             )}
           </label>
@@ -91,11 +133,10 @@ const AddTask = ({
               size="3"
               variant="classic"
               color="blue"
+              name="textareaValue"
               placeholder="Enter task description"
-              value={textareaValue}
-              onChange={(event) => {
-                setTextareaValue(event.target.value);
-              }}
+              value={values.textareaValue}
+              onChange={handleChange}
             />
           </label>
           <label>
@@ -103,16 +144,16 @@ const AddTask = ({
               Task Priority
             </Text>
             <SelectRoot
-              value={selectValue}
+              value={values.selectValue}
               onValueChange={(event) => {
-                setSelectValue(event);
+                setValues({ ...values, selectValue: event });
               }}
             >
               <SelectTrigger
                 placeholder="Select a priority..."
                 className=" w-full border cursor-pointer bg-slate-950"
               />
-              {error === "priority" && (
+              {values.error === "priority" && (
                 <span className=" text-red-500">
                   Please select a priority *
                 </span>
@@ -140,7 +181,7 @@ const AddTask = ({
             <Button
               variant="soft"
               className=" bg-slate-600 text-white cursor-pointer"
-              onClick={() => setEditTask(false)}
+              onClick={handleCancel}
             >
               Cancel
             </Button>
