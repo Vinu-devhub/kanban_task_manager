@@ -41,15 +41,12 @@ const Board = () => {
   );
 
   const handleDragStart = (e) => {
-    // console.log("Drag Start: ", e);
-
     if (e.active.data.current?.type === "Column") {
       dispatch(setActiveColumn(e.active.data.current.column));
       return;
     }
 
     if (e.active.data.current?.type === "Task") {
-      setDragTaskColumnId(e.active.data.current.columnId);
       dispatch(setActiveTask(e.active.data.current.task));
       return;
     }
@@ -68,6 +65,10 @@ const Board = () => {
     const overColumnId = over.id;
 
     if (activeColumnId === overColumnId) return;
+
+    // Column swapping not happening on task drop
+    const isActiveAColumn = active.data.current?.type === "Column";
+    if (!isActiveAColumn) return;
 
     dispatch(setColumns({ activeColumnId, overColumnId }));
   };
@@ -90,23 +91,24 @@ const Board = () => {
     const activeTaskColumnId = active.data.current?.columnId;
     const overTaskColumnId = over.data.current?.columnId;
 
+    setDragTaskColumnId(activeTaskColumnId);
+
     // let overTaskId;
 
     // if (isActiveATask && isOverATask) {
     //   overTaskId = over.data.current?.task.id;
     // }
 
-    // Dropping a task over another task
     if (isActiveATask && isOverATask) {
       dispatch(
         setTasks({
-          columnId: dragTaskColumnId,
+          columnId: activeTaskColumnId,
           activeTaskId: active.id,
           overTaskId: over.id,
           overColumnId:
             activeTaskColumnId === overTaskColumnId
-              ? dragTaskColumnId
-              : over.data.current?.columnId, // Add the overColumnId to the payload
+              ? activeTaskColumnId
+              : overTaskColumnId, // Add the overColumnId to the payload
         }),
       );
     }
@@ -114,14 +116,13 @@ const Board = () => {
     // Dropping a task over a column
     const isOverAColumn = over.data.current?.type === "Column";
 
-
     if (
       (isActiveATask && isOverAColumn) ||
       activeTaskColumnId !== overTaskColumnId
     ) {
       dispatch(
         setTasks({
-          columnId: dragTaskColumnId,
+          columnId: activeTaskColumnId,
           activeTaskId: active.id,
           overColumnId: over.id,
           overTaskId: null, //

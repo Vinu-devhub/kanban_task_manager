@@ -82,8 +82,12 @@ const Task = ({ columnId, task }) => {
       <div
         ref={setNodeRef}
         style={style}
-        className=" max-h-36 h-full w-full bg-transparent  bg-opacity border-2 border-dashed border-white rounded-lg p-3 space-y-2 flex flex-col"
-      />
+        className=" max-h-36 h-full w-full bg-transparent border-2 border-dashed border-white rounded-lg p-3 space-y-2 flex flex-col justify-between items-center  "
+      >
+        <p className=" text-lg text-gray-500 font-medium">
+          Drop your task here...
+        </p>
+      </div>
     );
   }
 
@@ -107,11 +111,11 @@ const Task = ({ columnId, task }) => {
   return (
     <>
       <div
-        {...attributes}
-        {...listeners}
         ref={setNodeRef}
         style={style}
-        className=" max-h-36 h-full w-full bg-[#292B31] backdrop-filter backdrop-blur-lg bg-opacity shadow-md rounded-lg p-3 space-y-2 flex flex-col cursor-pointer "
+        {...attributes}
+        {...listeners}
+        className=" bg-[#292B31] text-white shadow-md rounded-lg p-3 space-y-2 flex flex-col cursor-pointer "
         onClick={() => {
           dispatch(setShowTaskId(task.id));
           dispatch(setShowTask(showTask));

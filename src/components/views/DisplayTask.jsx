@@ -12,10 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShowTask } from "../../redux/slices/taskSlice";
 
 const DisplayTask = ({ title, description, priority, date }) => {
-
-  console.log("Task details from Display task component: ", title, description, priority, date);
-
-
   const { showTask } = useSelector((state) => state.taskState);
 
   const dispatch = useDispatch();
