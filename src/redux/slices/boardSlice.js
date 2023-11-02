@@ -18,7 +18,11 @@ const data = {
                 "This is a test task description. Check it out: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad neque atque ipsum ea aspernatur repellat minus quisquam ex iste non.",
               status: "To Do",
               priority: "Low",
-              date: "01 Nov 2023",
+              date: new Date().toLocaleDateString("en-IN", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }),
             },
           ],
         },
@@ -26,8 +30,6 @@ const data = {
     },
   ],
 };
-
-// let currentID = 0;
 
 const { boards } = data;
 
@@ -63,7 +65,7 @@ const getBoardStateFromLocalStorage = () => {
   return state ? JSON.parse(state).kanban_board : null;
 };
 
-const initialState = getBoardStateFromLocalStorage() || {
+const boardState = {
   boards: initialBoardState,
   activeBoardIndex: 0,
   activeColumn: null,
@@ -71,10 +73,16 @@ const initialState = getBoardStateFromLocalStorage() || {
   dragState: initialBoardState,
 };
 
+const initialState = getBoardStateFromLocalStorage() || boardState;
+
 const boardSlice = createSlice({
   name: "kanban_board",
   initialState: initialState,
   reducers: {
+    resetBoardState: (state, action) => {
+      localStorage.removeItem(action.payload);
+      return boardState;
+    },
     setActiveBoardIndex: (state, action) => {
       state.activeBoardIndex = action.payload;
     },
@@ -325,6 +333,7 @@ export const {
   deleteTask,
   setActiveTask,
   setTasks,
+  resetBoardState,
 } = boardSlice.actions;
 
 // Create a middleware function to handle localStorage integration
