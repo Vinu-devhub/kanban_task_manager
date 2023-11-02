@@ -19,7 +19,6 @@ const columnSlice = createSlice({
       state.editColumnMode = action.payload;
     },
     setDeleteColumnId: (state, action) => {
-      console.log("Column id: ", action.payload);
       state.deleteColumnId = action.payload;
     },
     setDeleteColumnMode: (state, action) => {
