@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import boardReducer from "./slices/boardSlice";
+import boardReducer, { localStorageMiddleware } from "./slices/boardSlice";
 import columnReducer from "./slices/columnSilce";
 import taskReducer from "./slices/taskSlice";
 
@@ -10,6 +10,10 @@ const store = configureStore({
     columnState: columnReducer,
     taskState: taskReducer,
   },
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware(),
+    localStorageMiddleware,
+  ],
 });
 
 export default store;

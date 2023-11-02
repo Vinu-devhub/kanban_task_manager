@@ -91,7 +91,7 @@ const Board = () => {
     const activeTaskColumnId = active.data.current?.columnId;
     const overTaskColumnId = over.data.current?.columnId;
 
-    setDragTaskColumnId(activeTaskColumnId);
+    // setDragTaskColumnId(activeTaskColumnId);
 
     // let overTaskId;
 

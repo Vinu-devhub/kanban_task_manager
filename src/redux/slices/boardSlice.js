@@ -1,21 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
-import data from "../../../public/data.json";
+import { v4 as uuidv4 } from "uuid";
 
-let currentID = 0;
+const data = {
+  boards: [
+    {
+      id: uuidv4(),
+      title: "Board_1",
+      columns: [
+        {
+          id: uuidv4(),
+          title: "Column_1",
+          tasks: [
+            {
+              id: uuidv4(),
+              title: "Welcome to First Task ",
+              description:
+                "This is a test task description. Check it out: Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ad neque atque ipsum ea aspernatur repellat minus quisquam ex iste non.",
+              status: "To Do",
+              priority: "Low",
+              date: "01 Nov 2023",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+};
+
+// let currentID = 0;
 
 const { boards } = data;
 
 const initialBoardState = boards.map((board) => {
   return {
-    id: currentID++,
+    id: uuidv4(),
     title: board.title,
     columns: board.columns.map((column) => {
       return {
-        id: currentID++,
+        id: uuidv4(),
         title: column.title,
         tasks: column.tasks.map((task) => {
           return {
-            id: currentID++,
+            id: uuidv4(),
             title: task.title,
             description: task.description,
             status: task.status,
@@ -28,7 +54,16 @@ const initialBoardState = boards.map((board) => {
   };
 });
 
-const initialState = {
+const saveBoardStateToLocalStorage = (state) => {
+  localStorage.setItem("boardState", JSON.stringify(state));
+};
+
+const getBoardStateFromLocalStorage = () => {
+  const state = localStorage.getItem("boardState");
+  return state ? JSON.parse(state).kanban_board : null;
+};
+
+const initialState = getBoardStateFromLocalStorage() || {
   boards: initialBoardState,
   activeBoardIndex: 0,
   activeColumn: null,
@@ -45,7 +80,7 @@ const boardSlice = createSlice({
     },
     addBoard: (state, action) => {
       const newBoard = {
-        id: currentID++,
+        id: uuidv4(),
         title: action.payload,
         columns: [],
       };
@@ -63,7 +98,7 @@ const boardSlice = createSlice({
     },
     addColumn: (state, action) => {
       const newColumn = {
-        id: currentID++,
+        id: uuidv4(),
         title: action.payload.columnName,
         tasks: [],
       };
@@ -118,10 +153,8 @@ const boardSlice = createSlice({
       return state;
     },
     addTask: (state, action) => {
-      console.log("Column Id: ", action.payload);
-
       const newTask = {
-        id: currentID++,
+        id: uuidv4(),
         title: action.payload.title,
         description: action.payload.description,
         priority: action.payload.priority,
@@ -293,3 +326,32 @@ export const {
   setActiveTask,
   setTasks,
 } = boardSlice.actions;
+
+// Create a middleware function to handle localStorage integration
+export const localStorageMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+
+  // Define the actions that you want to sync with localStorage
+  const localStorageActions = [
+    "kanban_board/setActiveBoardIndex",
+    "kanban_board/setActiveColumn",
+    "kanban_board/setColumns",
+    "kanban_board/addBoard",
+    "kanban_board/editBoardName",
+    "kanban_board/deleteBoard",
+    "kanban_board/addColumn",
+    "kanban_board/editColumn",
+    "kanban_board/deleteColumn",
+    "kanban_board/addTask",
+    "kanban_board/editTask",
+    "kanban_board/deleteTask",
+    "kanban_board/setActiveTask",
+    "kanban_board/setTasks",
+  ];
+
+  if (localStorageActions.includes(action.type)) {
+    saveBoardStateToLocalStorage(store.getState());
+  }
+
+  return result;
+};
