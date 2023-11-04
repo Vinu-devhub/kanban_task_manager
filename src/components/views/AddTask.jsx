@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTask, editTask } from "../../redux/slices/boardSlice";
 import {
+  setEditTaskId,
   setEditTaskMode,
   setNewTaskColumnId,
 } from "../../redux/slices/taskSlice";
@@ -82,6 +83,7 @@ const AddTask = ({ columnId, title, description, priority }) => {
 
     dispatch(setEditTaskMode(false));
     dispatch(setNewTaskColumnId(null));
+    dispatch(setEditTaskId(null));
     setValues({
       ...values,
       inputValue: "",
@@ -92,6 +94,7 @@ const AddTask = ({ columnId, title, description, priority }) => {
   };
 
   const handleCancel = () => {
+    dispatch(setEditTaskId(null));
     dispatch(setEditTaskMode(false));
     dispatch(setNewTaskColumnId(null));
     setValues({
